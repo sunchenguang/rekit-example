@@ -17,6 +17,10 @@ export default class SimpleNav extends PureComponent {
         {
           items.reduce((prev, item) => {
             let path;
+            if(item.hidden) {
+              return prev
+            }
+
             if (/^\//.test(item.path)) {
               path = item.path;
             } else if (basePath === '/') {

@@ -3,9 +3,15 @@ import App from '../containers/App';
 import { PageNotFound } from '../components';
 import homeRoute from '../features/home/route';
 
+function test(nextState, replace) {
+    console.log('------------')
+    console.log(arguments)
+}
+
 const routes = [{
   path: '/',
   component: App,
+  onEnter: test,
   childRoutes: [
     homeRoute,
     { path: '*', name: 'Page not found', component: PageNotFound },
