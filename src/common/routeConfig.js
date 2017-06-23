@@ -2,20 +2,54 @@ import App from '../containers/App';
 
 import { PageNotFound } from '../components';
 import homeRoute from '../features/home/route';
+import store from './configStore'
+import { constantRouterMap, asyncRouterMap } from './routerMap'
 
-function test(nextState, replace) {
-    console.log('------------')
-    console.log(arguments)
+// export const constantRouterMap = [
+//     homeRoute
+// ]
+//
+// export const asyncRouterMap = [
+//     { path: '*', name: 'Page not found', component: PageNotFound },
+// ]
+function hasPermission(roles, route) {
+    if (route.meta && route.meta.role) {
+        return roles.some(role => route.meta.role.indexOf(role) >= 0)
+    } else {
+        return true
+    }
 }
 
+function filterAsyncRouter(asyncRouterMap, roles) {
+    let accessedRouters = asyncRouterMap.filter(route => {
+        if(hasPermission(roles, route)) {
+            if(route.children && route.children.length) {
+                route.children = filterAsyncRouter(route.children, roles)
+            }
+            return true
+        }
+        return false
+    })
+    return accessedRouters
+}
+
+function filterRoutes(nextState, replace) {
+    let roles = store.getState().roles
+    let accessedRouters
+    if (roles.indexOf('admin') >= 0) {
+        accessedRouters = asyncRouterMap
+    } else {
+        accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
+    }
+
+    //拼接路由
+    routes[0].childRoutes = routes[0].childRoutes.concat(accessedRouters)
+}
 const routes = [{
-  path: '/',
-  component: App,
-  onEnter: test,
-  childRoutes: [
-    homeRoute,
-    { path: '*', name: 'Page not found', component: PageNotFound },
-  ],
+    path: '/',
+    component: App,
+    onEnter: filterRoutes,
+    childRoutes: constantRouterMap,
 }];
 
 // Handle isIndex property of route config:

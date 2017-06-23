@@ -5,9 +5,9 @@ import { render } from 'react-dom';
 import Root from './containers/Root';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import configStore from './common/configStore';
+import store from './common/configStore';
 
-const store = configStore();
+// const store = configStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
 const root = document.createElement('div');

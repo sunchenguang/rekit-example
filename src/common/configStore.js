@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'dev') {
   }
 }
 
-export default function configureStore(initialState) {
+function configureStore(initialState) {
   const store = createStore(rootReducer, initialState, compose(
     applyMiddleware(...middlewares),
     devToolsExtension
@@ -33,3 +33,5 @@ export default function configureStore(initialState) {
 
   return store;
 }
+
+export default configureStore();
