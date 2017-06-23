@@ -23,8 +23,8 @@ function hasPermission(roles, route) {
 function filterAsyncRouter(asyncRouterMap, roles) {
     let accessedRouters = asyncRouterMap.filter(route => {
         if(hasPermission(roles, route)) {
-            if(route.children && route.children.length) {
-                route.children = filterAsyncRouter(route.children, roles)
+            if(route.childRoutes && route.childRoutes.length) {
+                route.childRoutes = filterAsyncRouter(route.childRoutes, roles)
             }
             return true
         }
