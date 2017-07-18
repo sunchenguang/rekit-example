@@ -90,6 +90,7 @@
     "trash": "^4.0.0"
   },
   "devDependencies": {
+    "antd": "^2.12.1",
     "babel-eslint": "^7.1.0",
     "babel-loader": "^6.2.5",
     "babel-plugin-istanbul": "^3.0.0",

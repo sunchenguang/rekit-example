@@ -10,6 +10,7 @@ export class TestPage1 extends Component {
   };
 
   render() {
+    console.log(this.props)
     return (
       <div className="home-test-page-1">
         Page Content: home/TestPage1
